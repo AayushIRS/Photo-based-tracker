@@ -57,9 +57,32 @@
       if (!equipment) {
         alert("Please enter equipment name.");
         return;
-      }
-      alert("Equipment issued to " + name + " (" + equipment + ")");
-      // Future: send to Google Sheets or backend
+      }const timestamp = new Date().toLocaleString();
+const room = userData[name].room;
+
+// Replace YOUR_SHEETDB_API_URL with your actual SheetDB API endpoint
+fetch("https://sheetdb.io/api/v1/33gm7bz64hnm1", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    data: [{
+      name: name,
+      room: room,
+      equipment: equipment,
+      timestamp: timestamp
+    }]
+  })
+})
+.then(response => response.json())
+.then(data => {
+  alert("Equipment issued to " + name + " (" + equipment + ")");
+  document.getElementById("equipmentInput").value = "";
+})
+.catch(error => {
+  console.error("Error:", error);
+  alert("Failed to log the data to Google Sheets.");
+});
+      
     }
   </script>
 </body>
