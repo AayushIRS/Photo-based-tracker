@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sports Equipment Issue Tracker</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+    h2 { color: #333; }
+    label, input, button { margin: 10px 0; display: block; }
+    img { max-width: 100px; margin-top: 10px; }
+    #photoDisplay { display: none; margin-top: 10px; }
+    .info { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h2>Sports Equipment Issue Tracker</h2>
+
+  <label for="nameInput">Enter your name:</label>
+  <input type="text" id="nameInput" placeholder="e.g., Aayush S." oninput="lookupUser()" />
+
+  <div id="photoDisplay">
+    <p class="info"><strong>Room No:</strong> <span id="roomNo"></span></p>
+    <img id="userPhoto" src="" alt="User Photo" />
+  </div>
+
+  <label for="equipmentInput">Equipment Name:</label>
+  <input type="text" id="equipmentInput" placeholder="e.g., Yonex Racket" />
+
+  <button onclick="submitForm()">Issue Equipment</button>
+
+  <script>
+    const userData = {
+      "Aayush S.": { room: "203", photo: "https://i.imgur.com/abc123.jpg" },
+      "Chiya": { room: "105", photo: "https://i.imgur.com/xyz789.jpg" },
+      "Pratap": { room: "307", photo: "https://i.imgur.com/testphoto.jpg" }
+    };
+
+    function lookupUser() {
+      const name = document.getElementById("nameInput").value;
+      const data = userData[name];
+      if (data) {
+        document.getElementById("roomNo").textContent = data.room;
+        document.getElementById("userPhoto").src = data.photo;
+        document.getElementById("photoDisplay").style.display = "block";
+      } else {
+        document.getElementById("photoDisplay").style.display = "none";
+      }
+    }
+
+    function submitForm() {
+      const name = document.getElementById("nameInput").value;
+      const equipment = document.getElementById("equipmentInput").value;
+      if (!userData[name]) {
+        alert("Name not found. Please check the name again.");
+        return;
+      }
+      if (!equipment) {
+        alert("Please enter equipment name.");
+        return;
+      }
+      alert("Equipment issued to " + name + " (" + equipment + ")");
+      // Future: send to Google Sheets or backend
+    }
+  </script>
+</body>
+</html>
